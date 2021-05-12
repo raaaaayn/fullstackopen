@@ -28,6 +28,9 @@ const Meth = ({ feedback, total, whattodo }) => {
 };
 
 const Statistaks = ({ feedback, total }) => {
+  if (total === 0) {
+    return <p>No feedback given ;__;</p>;
+  }
   return (
     <div>
       <h1>Statistaks</h1>
