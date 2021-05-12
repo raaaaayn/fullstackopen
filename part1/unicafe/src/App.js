@@ -27,6 +27,14 @@ const Meth = ({ feedback, total, whattodo }) => {
   }
 };
 
+const Statistak = ({ text, value }) => {
+  return (
+    <p>
+      {text} {value}
+    </p>
+  );
+};
+
 const Statistaks = ({ feedback, total }) => {
   if (total === 0) {
     return <p>No feedback given ;__;</p>;
@@ -34,10 +42,10 @@ const Statistaks = ({ feedback, total }) => {
   return (
     <div>
       <h1>Statistaks</h1>
-      <p>Good: {feedback.good}</p>
-      <p>Neutral: {feedback.neutral}</p>
-      <p>Bad: {feedback.bad}</p>
-      <p>All: {total}</p>
+      <Statistak text="good" value={feedback.good} />
+      <Statistak text="neutral" value={feedback.neutral} />
+      <Statistak text="bad" value={feedback.bad} />
+      <Statistak text="All" value={total} />
 
       <Meth feedback={feedback} total={total} whattodo="avg" />
       <Meth feedback={feedback} total={total} whattodo="p" />
