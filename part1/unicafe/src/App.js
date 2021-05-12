@@ -5,17 +5,41 @@ const Button = ({ handleClick, text }) => {
 };
 
 const Meth = ({ feedback, total, whattodo }) => {
+  console.log(feedback, total);
+  console.log((feedback.good - feedback.bad) / total);
   if (whattodo === "avg") {
-    return (
-      <p>
-        Average resentment:
-        {(feedback.good - feedback.bad) / total}
-      </p>
+    let resentment = 0;
+    resentment = (feedback.good - feedback.bad) / total;
+    return isNaN(resentment) ? (
+      <p>Average resentment: 0</p>
+    ) : (
+      <p>Average resentment: {resentment}</p>
     );
   }
   if (whattodo === "p") {
-    return <p>Postive feedback: {(feedback.good / total) * 100}%</p>;
+    let positivity = "0";
+    positivity = (feedback.good / total) * 100;
+    return isNaN(positivity) ? (
+      <p>Positivity: 0%</p>
+    ) : (
+      <p>Positivity: {positivity}%</p>
+    );
   }
+};
+
+const Statistaks = ({ feedback, total }) => {
+  return (
+    <div>
+      <h1>Statistaks</h1>
+      <p>Good: {feedback.good}</p>
+      <p>Neutral: {feedback.neutral}</p>
+      <p>Bad: {feedback.bad}</p>
+      <p>All: {total}</p>
+
+      <Meth feedback={feedback} total={total} whattodo="avg" />
+      <Meth feedback={feedback} total={total} whattodo="p" />
+    </div>
+  );
 };
 
 const App = () => {
@@ -28,7 +52,7 @@ const App = () => {
   const total = feedback.good + feedback.neutral + feedback.bad;
   return (
     <div>
-      <h1>Give feedback</h1>
+      <h1>Gib feedback UwW</h1>
       <Button
         handleClick={() =>
           setFeedback({
@@ -59,15 +83,7 @@ const App = () => {
         }
         text="bad"
       />
-
-      <h1>Statistaks</h1>
-      <p>Good: {feedback.good}</p>
-      <p>Neutral: {feedback.neutral}</p>
-      <p>Bad: {feedback.bad}</p>
-      <p>All: {total}</p>
-
-      <Meth feedback={feedback} total={total} whattodo="avg" />
-      <Meth feedback={feedback} total={total} whattodo="p" />
+      <Statistaks feedback={feedback} total={total} />
     </div>
   );
 };
