@@ -14,3 +14,4 @@ yarn-error.log*
 .npm/
 yarn.lock
 part1/courseinfo/package-lock.json
+example/
