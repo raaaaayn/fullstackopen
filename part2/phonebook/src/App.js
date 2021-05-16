@@ -3,13 +3,23 @@ import React, { useState } from "react";
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
-
   const addName = (e) => {
+    let hasName = false;
     e.preventDefault();
-    console.log("form submitted");
-    const newPerson = { name: newName };
-    setPersons(persons.concat(newPerson));
-    setNewName(" ");
+
+    persons.map((person) => {
+      if (person.name.toLowerCase() === newName.toLowerCase()) {
+        hasName = true;
+      }
+    });
+
+    if (hasName) {
+      alert("man that name already exists");
+    } else {
+      const newPerson = { name: newName };
+      setPersons(persons.concat(newPerson));
+      setNewName(" ");
+    }
   };
 
   const handleNameChange = (e) => {
@@ -29,8 +39,8 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => (
-          <li key={person.name}>{person.name}</li>
+        {persons.map((person, i) => (
+          <li key={i}>{person.name}</li>
         ))}
       </ul>
     </div>
