@@ -1,5 +1,58 @@
 import React, { useState } from "react";
 
+const DisplayNumbers = ({ persons }) => {
+  return (
+    <div>
+      <h3>Numbers</h3>
+      <ul>
+        {persons.map((person) => (
+          <li key={persons.name}>
+            {person.name} {person.number}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const Search = ({ handleFormSearch, searchField, handleSearch }) => {
+  return (
+    <div>
+      <form onSubmit={handleFormSearch}>
+        <div>
+          enter you search here:
+          <input value={searchField} onChange={handleSearch} />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const AddPerson = (props) => {
+  return (
+    <div>
+      <h3>Add New</h3>
+      <form onSubmit={props.addPerson}>
+        <div>
+          name:{" "}
+          <input value={props.newName} onChange={props.handleNameChange} />
+        </div>
+
+        <div>
+          phone number:
+          <input
+            value={props.newPhoneNumb}
+            onChange={props.handlePhoneChange}
+          />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456" },
@@ -63,9 +116,11 @@ const App = () => {
   const DisplaySearched = ({ matched }) => {
     return (
       <div>
-        {matched.map((ele, i) => (
-          <li key={i + String(Math.floor(Math.random() * 300))}>{ele}</li>
-        ))}
+        <ul>
+          {matched.map((ele, i) => (
+            <li key={i + String(Math.floor(Math.random() * 300))}>{ele}</li>
+          ))}
+        </ul>
       </div>
     );
   };
@@ -73,35 +128,20 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={handleFormSearch}>
-        <div>
-          enter you search here:
-          <input value={searchField} onChange={handleSearch} />
-        </div>
-      </form>
+      <Search
+        handleFormSearch={handleFormSearch}
+        handleSearch={handleSearch}
+        searchField={searchField}
+      />
       <DisplaySearched matched={matched} />
-      <h2>Add New</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-
-        <div>
-          phone number:
-          <input value={newPhoneNumb} onChange={handlePhoneChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {persons.map((person) => (
-          <li key={persons.name}>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
+      <AddPerson
+        addPerson={addPerson}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newPhoneNumb={newPhoneNumb}
+        handlePhoneChange={handlePhoneChange}
+      />
+      <DisplayNumbers persons={persons} />
     </div>
   );
 };
