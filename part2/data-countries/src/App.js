@@ -1,6 +1,42 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+const RenderDeets = ({ country }) => {
+  const [visibilty, setvisibility] = useState(0);
+  if (visibilty === 0) {
+    return (
+      <div>
+        {country.name}
+        <button onClick={() => setvisibility(1)}>Show</button>
+      </div>
+    );
+  } else if (visibilty === 1) {
+    return (
+      <div>
+        <h3>{country.name}</h3>
+        <p>capital {country.capital}</p>
+        <p>population {country.population}</p>
+        <h4>Currencies</h4>
+        <ul>
+          {country.currencies.map((currency) => (
+            <li key={currency.code}>
+              {currency.code} ({currency.name})
+            </li>
+          ))}
+        </ul>
+        <h4>Languages</h4>
+        <ul>
+          {country.languages.map((language) => (
+            <li key={language.iso639_1}>{language.name}</li>
+          ))}
+        </ul>
+        <img src={country.flag} alt="flag" height="16%" width="16%" />
+        <button onClick={() => setvisibility(0)}>Hide</button>
+      </div>
+    );
+  }
+};
+
 const RenderRestApiData = ({ countries }) => {
   if (countries.length > 10) {
     return (
@@ -36,8 +72,8 @@ const RenderRestApiData = ({ countries }) => {
   } else {
     return (
       <div>
-        {countries.map((obj) => (
-          <p key={obj["name"]}>{obj["name"]}</p>
+        {countries.map((country) => (
+          <RenderDeets key={country.name} country={country} />
         ))}
       </div>
     );
