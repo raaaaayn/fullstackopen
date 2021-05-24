@@ -1,6 +1,47 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+const RenderWeatherDeets = ({ city }) => {
+  console.log("inside render weatherdata");
+  const [weatherData, setweatherData] = useState([]);
+  const api_key = process.env.REACT_APP_API_KEY;
+  console.log(api_key);
+  useEffect(() => {
+    console.log("inside weatherdatas effect");
+    axios
+      .get(
+        `http://api.weatherstack.com/current?access_key=${api_key}&query=${city}`
+      )
+      .then((response) => {
+        let arr = [];
+        setweatherData(arr.concat(response.data));
+        console.log("weatherData inside .then", weatherData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  return (
+    <div>
+      {weatherData.map((weather) => {
+        return (
+          <div>
+            {console.log(weather)}
+            <h4>Current weather in {weather.location.name}</h4>
+            <img src={weather.current.weather_icons} alt="weather icon" />
+            <div>
+              {weather.current.weather_descriptions.map((description) => (
+                <div key={description}>{description}</div>
+              ))}
+            </div>
+            <div>Temperature {weather.current.temperature}</div>
+            <div>Feels like {weather.current.feelslike}</div>
+            <div>Wind speed {weather.current.wind_speed} knots</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const RenderDeets = ({ country }) => {
   const [visibilty, setvisibility] = useState(0);
   if (visibilty === 0) {
@@ -32,6 +73,7 @@ const RenderDeets = ({ country }) => {
         </ul>
         <img src={country.flag} alt="flag" height="16%" width="16%" />
         <button onClick={() => setvisibility(0)}>Hide</button>
+        <RenderWeatherDeets city={country.capital} />
       </div>
     );
   }
