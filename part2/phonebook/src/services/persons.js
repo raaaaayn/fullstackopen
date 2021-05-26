@@ -16,8 +16,14 @@ const editNumber = (id, changedPerson) => {
   return request.then((response) => response.data);
 };
 
+const deletePerson = (id) => {
+  const request = axios.delete(baseurl + "/" + id);
+  return request.then((response) => response);
+};
+
 export default {
   getPersons,
   createPerson,
   editNumber,
+  deletePerson,
 };

@@ -1,16 +1,31 @@
 import React, { useEffect, useState } from "react";
 import personMethods from "./services/persons";
 
-const DisplayNumbers = ({ persons }) => {
+const DisplayNumbers = ({ persons, setPersons }) => {
+  const handleDelete = (id) => {
+    personMethods
+      .deletePerson(id)
+      .then(() => setPersons(persons.filter((person) => person.id !== id)));
+  };
   return (
     <div>
       <h3>Numbers</h3>
       <ul>
-        {persons.map((person) => (
-          <li key={persons.name}>
-            {person.name} {person.number}
-          </li>
-        ))}
+        {persons.map((person) => {
+          return (
+            <div key={person.name + "div"}>
+              <li key={person.name}>
+                {person.name} {person.number}
+              </li>
+              <button
+                key={person.name + 1}
+                onClick={() => handleDelete(person.id)}
+              >
+                delete
+              </button>
+            </div>
+          );
+        })}
       </ul>
     </div>
   );
@@ -97,6 +112,17 @@ const App = () => {
         setNewPhoneNumb("");
         setNewName("");
       });
+    } else {
+      const newPerson = {
+        name: newName,
+        number: newPhoneNumb,
+        id: persons.length + 1,
+      };
+      personMethods.createPerson(newPerson).then(() => {
+        setPersons(persons.concat(newPerson));
+        setNewPhoneNumb("");
+        setNewName("");
+      });
     }
   };
 
@@ -151,7 +177,7 @@ const App = () => {
         newPhoneNumb={newPhoneNumb}
         handlePhoneChange={handlePhoneChange}
       />
-      <DisplayNumbers persons={persons} />
+      <DisplayNumbers persons={persons} setPersons={setPersons} />
     </div>
   );
 };
