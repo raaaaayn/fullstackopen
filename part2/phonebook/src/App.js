@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import personMethods from "./services/persons";
 
 const DisplayNumbers = ({ persons }) => {
   return (
@@ -35,7 +35,6 @@ const AddPerson = (props) => {
       <h3>Add New</h3>
       <form onSubmit={props.addPerson}>
         <div>
-          name:{" "}
           <input value={props.newName} onChange={props.handleNameChange} />
         </div>
 
@@ -62,35 +61,42 @@ const App = () => {
   const [matched, setMatched] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promis fullfilled");
-      console.log(persons);
-      setPersons(response.data);
-    });
+    personMethods.getPersons().then((persons) => setPersons(persons));
   }, []);
 
   const addPerson = (e) => {
     e.preventDefault();
-    let hasnamenum = false;
+    let hasname = false;
+    let id = 0;
 
     persons.map((person) => {
-      if (
-        person.number === newPhoneNumb ||
-        person.name.toLowerCase() === newName.toLowerCase()
-      ) {
-        hasnamenum = true;
+      if (person.name.toLowerCase() === newName.toLowerCase()) {
+        hasname = true;
+        id = person.id;
         return null;
       }
       return null;
     });
 
-    if (hasnamenum) {
-      alert("man that number/name already exists");
-    } else {
-      const newPerson = { name: newName, number: newPhoneNumb };
-      setPersons(persons.concat(newPerson));
-      setNewPhoneNumb("");
-      setNewName("");
+    if (hasname) {
+      if (!window.confirm("editing previous entry")) {
+        return;
+      }
+      const newPerson = {
+        name: newName,
+        number: newPhoneNumb,
+        id,
+      };
+      const changedPerson = { ...newPerson, number: newPhoneNumb };
+      personMethods.editNumber(id, newPerson).then((changedPerson) => {
+        setPersons(
+          persons.map((person) =>
+            person.id === changedPerson.id ? changedPerson : person
+          )
+        );
+        setNewPhoneNumb("");
+        setNewName("");
+      });
     }
   };
 
