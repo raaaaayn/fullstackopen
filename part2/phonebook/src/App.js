@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from "react";
 import personMethods from "./services/persons";
+import "./index.css";
 
-const DisplayNumbers = ({ persons, setPersons }) => {
+const Notif = ({ notif }) => {
+  if (notif === "") return <div></div>;
+  return <div className="notif">Successfully added {notif} to the server!</div>;
+};
+
+const Alert = ({ alert }) => {
+  if (alert === "") return <div></div>;
+  return (
+    <div className="alert">
+      Information of {alert} has been deleted from the server
+    </div>
+  );
+};
+
+const DisplayNumbers = ({ persons, setPersons, ...props }) => {
   const handleDelete = (id) => {
     personMethods
       .deletePerson(id)
-      .then(() => setPersons(persons.filter((person) => person.id !== id)));
+      .then(() => setPersons(persons.filter((person) => person.id !== id)))
+      .catch((err) => {});
   };
   return (
     <div>
@@ -74,10 +90,17 @@ const App = () => {
   const [newPhoneNumb, setNewPhoneNumb] = useState("");
   const [searchField, setSeachField] = useState("");
   const [matched, setMatched] = useState([]);
+  const [notif, setnotif] = useState("");
+  const [alert, setalert] = useState("");
 
   useEffect(() => {
     personMethods.getPersons().then((persons) => setPersons(persons));
   }, []);
+
+  const displayNotif = (notif) => {
+    setnotif(notif);
+    setTimeout(() => setnotif(""), 3000);
+  };
 
   const addPerson = (e) => {
     e.preventDefault();
@@ -103,26 +126,39 @@ const App = () => {
         id,
       };
       const changedPerson = { ...newPerson, number: newPhoneNumb };
-      personMethods.editNumber(id, newPerson).then((changedPerson) => {
-        setPersons(
-          persons.map((person) =>
-            person.id === changedPerson.id ? changedPerson : person
-          )
-        );
-        setNewPhoneNumb("");
-        setNewName("");
-      });
+      personMethods
+        .editNumber(id, newPerson)
+        .then((changedPerson) => {
+          setPersons(
+            persons.map((person) =>
+              person.id === changedPerson.id ? changedPerson : person
+            )
+          );
+          setNewPhoneNumb("");
+          setNewName("");
+        })
+        .catch(() => {
+          setalert(persons.find((person) => person.id === id).name);
+          console.log(persons.find((person) => person.id === id).name);
+          setTimeout(() => setalert(""), 3000);
+        });
     } else {
       const newPerson = {
         name: newName,
         number: newPhoneNumb,
         id: persons.length + 1,
       };
-      personMethods.createPerson(newPerson).then(() => {
-        setPersons(persons.concat(newPerson));
-        setNewPhoneNumb("");
-        setNewName("");
-      });
+      personMethods
+        .createPerson(newPerson)
+        .then(() => {
+          setPersons(persons.concat(newPerson));
+          setNewPhoneNumb("");
+          setNewName("");
+          displayNotif(newPerson.name);
+        })
+        .catch((err) => {
+          if (err) console.log(err);
+        });
     }
   };
 
@@ -164,6 +200,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Alert alert={alert} />
+      <Notif notif={notif} />
       <Search
         handleFormSearch={handleFormSearch}
         handleSearch={handleSearch}
@@ -177,7 +215,11 @@ const App = () => {
         newPhoneNumb={newPhoneNumb}
         handlePhoneChange={handlePhoneChange}
       />
-      <DisplayNumbers persons={persons} setPersons={setPersons} />
+      <DisplayNumbers
+        persons={persons}
+        setPersons={setPersons}
+        setalert={setalert}
+      />
     </div>
   );
 };
