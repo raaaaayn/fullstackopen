@@ -1,2 +1,5 @@
 http://localhost:3001/api
 GET /persons
+
+http://localhost:3001/api
+GET /info
