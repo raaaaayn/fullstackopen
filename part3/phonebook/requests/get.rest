@@ -1,9 +1,21 @@
-http://localhost:3001/api
+http://localhost:3000/api
 GET /persons
 
-http://localhost:3001/api
+http://localhost:3000/api
 GET /info
 
 
-http://localhost:3001/api
+http://localhost:3000/api
 GET /persons/5
+
+http://localhost:3000/api
+DELETE /persons/5
+
+http://localhost:3000/api
+# Content-Type: application/json; charset=utf-8
+POST /persons
+{
+    "name": "poopinpi2",
+    "number": "23141223132"
+}
+
