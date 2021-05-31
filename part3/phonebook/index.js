@@ -1,7 +1,10 @@
 const express = require("express");
+const morgan = require('morgan')
 
 app = express();
 app.use(express.json());
+app.use(morgan('tiny'));
+morgan.token('maybe', (req, res) => {return JSON.stringify(req.body)})
 
 let persons = [
   {
@@ -47,7 +50,7 @@ app.get("/api/persons/:id", (req, resp) => {
   if (person) {
     resp.json(person);
   } else {
-    resp.send(404).end();
+    resp.sendStatus(404).end();
   }
 });
 
@@ -55,17 +58,16 @@ app.delete("/api/persons/:id", (req, resp) => {
   const id = req.params.id;
   const persontobedelete = persons.find((person) => person.id == id);
   if (persontobedelete) {
-    console.log(persontobedelete, "has been deleted");
     persons = persons.filter((person) => person.id != id);
     resp.sendStatus(204).end();
   } else {
-    console.log("person does not exist");
     resp.sendStatus(204).end();
   }
 });
 
 const generateid = () => Math.floor(Math.random() * 6999);
 
+app.use(morgan(':method :url :status :res[content-length] :maybe - :response-time ms'))
 app.post("/api/persons", (req, resp) => {
   const newperson = {
     name: req.body.name,
@@ -78,7 +80,6 @@ app.post("/api/persons", (req, resp) => {
     } else {
       persons = persons.concat(newperson);
       resp.sendStatus(204).end();
-      console.log(JSON.stringify(newperson));
     }
   }
 });
