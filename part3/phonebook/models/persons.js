@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const url =
-  process.env.MONGODB_URL ||
-  "mongodb+srv://poopu_inu:poopuinuatmongoose@cluster0.vjoxz.mongodb.net/persons?retryWrites=true&w=majority";
+const url = process.env.MONGODB_URL;
 console.log("connecting to", url);
 mongoose
   .connect(url, {
