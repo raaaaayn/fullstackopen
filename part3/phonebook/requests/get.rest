@@ -15,7 +15,14 @@ http://localhost:3001/api
 # Content-Type: application/json; charset=utf-8
 POST /persons
 {
-    "name": "poopinpi",
+    "name": "poopu inu",
     "number": "23-14-1223132"
 }
 
+
+http://localhost:3001/api
+PUT /persons/60b75593429e12290359992a
+{
+    "name": "poopu inu",
+    "number": "23-14-1223132"
+}

@@ -95,7 +95,7 @@ const App = () => {
 
   useEffect(() => {
     personMethods.getPersons().then((persons) => setPersons(persons));
-  }, []);
+  },[newName]);
 
   const displayNotif = (notif) => {
     setnotif(notif);

@@ -73,6 +73,12 @@ app.get("/api/persons/:id", (req, resp, next) => {
 });
 app.use(errorHandler);
 
+app.put("/api/persons/:id", (req, resp) => {
+  Person.findByIdAndUpdate(req.params.id, req.body).then((rep) =>
+    resp.sendStatus(200).end()
+  );
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
