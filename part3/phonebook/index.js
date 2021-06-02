@@ -11,7 +11,7 @@ app.use(morgan("tiny"));
 app.use(express.static("build"));
 
 const errorHandler = (err, request, response, next) => {
-  console.error(err.message);
+  console.log(err.message);
   if (err.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
   } else if (err.name === "ValidationError") {
@@ -76,10 +76,10 @@ app.get("/api/persons/:id", (req, resp, next) => {
 });
 app.use(errorHandler);
 
-app.put("/api/persons/:id", (req, resp) => {
-  Person.findByIdAndUpdate(req.params.id, req.body).then((rep) =>
-    resp.sendStatus(200).end()
-  );
+app.put("/api/persons/:id", (req, resp, next) => {
+  Person.findByIdAndUpdate(req.params.id, req.body)
+    .then((rep) => resp.sendStatus(200).end())
+    .catch((err) => next(err));
 });
 
 const PORT = process.env.PORT || 3001;

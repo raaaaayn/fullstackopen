@@ -8,7 +8,15 @@ const Notif = ({ notif }) => {
 };
 
 const Alert = ({ alert }) => {
-  if (alert === "") return <div></div>;
+  if (alert === "") {
+    return <div></div>;
+  } else if ("validation failed") {
+    return (
+      <div className="alert">
+        The name entered is too short, please enter more than 3 characters
+      </div>
+    );
+  }
   return (
     <div className="alert">
       Information of {alert} has been deleted from the server
@@ -95,7 +103,7 @@ const App = () => {
 
   useEffect(() => {
     personMethods.getPersons().then((persons) => setPersons(persons));
-  },[newName]);
+  }, [newName]);
 
   const displayNotif = (notif) => {
     setnotif(notif);
@@ -146,18 +154,19 @@ const App = () => {
       const newPerson = {
         name: newName,
         number: newPhoneNumb,
-        id: persons.length + 1,
       };
       personMethods
         .createPerson(newPerson)
-        .then(() => {
-          setPersons(persons.concat(newPerson));
-          setNewPhoneNumb("");
-          setNewName("");
-          displayNotif(newPerson.name);
-        })
+        // .then((resp) => {
+        //   setPersons(persons.concat(newPerson));
+        //   setNewPhoneNumb("");
+        //   setNewName("");
+        //   displayNotif(newPerson.name);
+        // })
         .catch((err) => {
-          if (err) console.log(err);
+          console.log("err.response.data", err.response.data);
+          setalert("validation failed");
+          setTimeout(() => setalert(""), 3000);
         });
     }
   };
