@@ -14,6 +14,8 @@ const errorHandler = (err, request, response, next) => {
   console.error(err.message);
   if (err.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (err.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
   next(err);
 };
@@ -46,14 +48,15 @@ app.delete("/api/persons/:id", (req, resp) => {
     .catch(resp.sendStatus(204).end());
 });
 
-app.post("/api/persons", (req, resp) => {
+app.post("/api/persons", (req, resp, next) => {
   const newperson = new Person({
     name: req.body.name,
     number: req.body.number,
   });
-  if (newperson.name && newperson.number) {
-    newperson.save().then(resp.sendStatus(204).end());
-  }
+  newperson
+    .save()
+    .then(resp.sendStatus(204).end())
+    .catch((err) => next(err));
 });
 app.use(
   morgan(":method :url :status :res[content-length] :maybe - :response-time ms")
