@@ -9,13 +9,13 @@ http://localhost:3001/api
 GET /persons/5
 
 http://localhost:3001/api
-DELETE /persons/5
+DELETE /persons/60b75170ead21a224ff19af4
 
 http://localhost:3001/api
 # Content-Type: application/json; charset=utf-8
 POST /persons
 {
-    "name": "poopinpi2",
-    "number": "23141223132"
+    "name": "poopinpi",
+    "number": "23-14-1223132"
 }
 
