@@ -11,11 +11,11 @@ app.use(morgan("tiny"));
 app.use(express.static("build"));
 
 const errorHandler = (err, request, response, next) => {
-  console.error(err.message);
+  console.log(err.message);
   if (err.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
   } else if (err.name === "ValidationError") {
-    return response.status(400).json({ error: error.message });
+    return response.status(400).send({ error: err.message });
   }
   next(err);
 };
@@ -41,11 +41,10 @@ app.get("/api/info", (req, resp) => {
 app.delete("/api/persons/:id", (req, resp) => {
   const id = req.params.id;
   Person.findByIdAndDelete(id)
-    .then((found) => {
-      console.log(found);
+    .then(() => {
       resp.sendStatus(204).end();
     })
-    .catch(resp.sendStatus(204).end());
+    .catch(() => resp.sendStatus(204).end());
 });
 
 app.post("/api/persons", (req, resp, next) => {
@@ -55,7 +54,10 @@ app.post("/api/persons", (req, resp, next) => {
   });
   newperson
     .save()
-    .then(resp.sendStatus(204).end())
+    .then(() => {
+      console.log("then managed to execute");
+      resp.sendStatus(204).end();
+    })
     .catch((err) => next(err));
 });
 app.use(
@@ -76,10 +78,10 @@ app.get("/api/persons/:id", (req, resp, next) => {
 });
 app.use(errorHandler);
 
-app.put("/api/persons/:id", (req, resp) => {
-  Person.findByIdAndUpdate(req.params.id, req.body).then((rep) =>
-    resp.sendStatus(200).end()
-  );
+app.put("/api/persons/:id", (req, resp, next) => {
+  Person.findByIdAndUpdate(req.params.id, req.body)
+    .then((rep) => resp.sendStatus(200).end())
+    .catch((err) => next(err));
 });
 
 const PORT = process.env.PORT || 3001;

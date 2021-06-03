@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 require("dotenv").config();
 
 const url = process.env.MONGODB_URL;
@@ -21,10 +22,13 @@ const personSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
+    minLength: 3,
   },
   number: {
     type: String,
     required: true,
+    minLength: 8,
   },
 });
 

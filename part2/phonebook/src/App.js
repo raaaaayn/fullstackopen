@@ -8,7 +8,11 @@ const Notif = ({ notif }) => {
 };
 
 const Alert = ({ alert }) => {
-  if (alert === "") return <div></div>;
+  if (alert === "") {
+    return <div></div>;
+  } else if (/Person validation/gi.test(alert)) {
+    return <div className="alert">{alert}</div>;
+  }
   return (
     <div className="alert">
       Information of {alert} has been deleted from the server
@@ -95,7 +99,7 @@ const App = () => {
 
   useEffect(() => {
     personMethods.getPersons().then((persons) => setPersons(persons));
-  },[newName]);
+  }, [newName]);
 
   const displayNotif = (notif) => {
     setnotif(notif);
@@ -146,18 +150,18 @@ const App = () => {
       const newPerson = {
         name: newName,
         number: newPhoneNumb,
-        id: persons.length + 1,
       };
       personMethods
         .createPerson(newPerson)
-        .then(() => {
+        .then((resp) => {
           setPersons(persons.concat(newPerson));
           setNewPhoneNumb("");
           setNewName("");
           displayNotif(newPerson.name);
         })
         .catch((err) => {
-          if (err) console.log(err);
+          setalert(err.response.data.error);
+          setTimeout(() => setalert(""), 5000);
         });
     }
   };

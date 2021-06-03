@@ -1,17 +1,20 @@
-http://localhost:3001/api
+# http://localhost:3001/api
+https://rocky-tundra-86333.herokuapp.com/api
 GET /persons
 
-http://localhost:3001/api
+# http://localhost:3001/api
+https://rocky-tundra-86333.herokuapp.com/api
 GET /info
 
 
-http://localhost:3001/api
+# http://localhost:3001/api
+https://rocky-tundra-86333.herokuapp.com/api
 GET /persons/5
 
 http://localhost:3001/api
 DELETE /persons/60b75170ead21a224ff19af4
 
-http://localhost:3001/api
+https://rocky-tundra-86333.herokuapp.com/api
 # Content-Type: application/json; charset=utf-8
 POST /persons
 {
@@ -20,7 +23,8 @@ POST /persons
 }
 
 
-http://localhost:3001/api
+# http://localhost:3001/api
+https://rocky-tundra-86333.herokuapp.com/api
 PUT /persons/60b75593429e12290359992a
 {
     "name": "poopu inu",
