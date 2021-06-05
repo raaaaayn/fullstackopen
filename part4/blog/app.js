@@ -4,6 +4,7 @@ const express = require("express");
 const config = require("./utils/config");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
+const middleware = require("./utils/middleware");
 
 const app = express();
 const cors = require("cors");
@@ -20,10 +21,19 @@ mongoose
     useFindAndModify: false,
     useCreateIndex: true,
   })
-  .then(() => console.log("connnected to mongodb"));
+  .then(() => {
+    console.log("connnected to mongodb");
+    logger.info("---");
+  })
+  .catch((err) => logger.error(err.messege));
 
 app.use(cors());
 app.use(express.json());
+app.use(middleware.requestLogger);
+
 app.use("/api", blogRouter);
+
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;

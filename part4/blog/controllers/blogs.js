@@ -8,7 +8,7 @@ blogRouter.get("/blogs", (request, response) => {
   });
 });
 
-blogRouter.post("/blogs", (request, response) => {
+blogRouter.post("/blogs", (request, response, next) => {
   const blog = new Blog(request.body);
 
   blog
@@ -16,7 +16,7 @@ blogRouter.post("/blogs", (request, response) => {
     .then((result) => {
       response.status(201).json(result);
     })
-    .catch((err) => logger.error(err));
+    .catch((err) => next(err));
 });
 
 module.exports = blogRouter;
