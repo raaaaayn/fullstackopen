@@ -1,0 +1,11 @@
+http://localhost:3003/api
+GET /blogs
+
+http://localhost:3003/api
+POST /blogs
+{
+  "title":"new blog!",
+  "author":"BUttNuster",
+  "url":"localhost",
+  "likes":0
+}
