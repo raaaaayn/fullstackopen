@@ -7,6 +7,17 @@ const totalLikes = (blogs) => {
   return arr.reduce((a, b) => a + b, 0);
 };
 
+const favoriteBlog = (blogs) => {
+  let max = { likes: 0 };
+  blogs.map((blog) => {
+    if (blog.likes > max.likes) {
+      max = blog;
+    }
+  });
+  return max;
+};
+
 module.exports = {
   totalLikes,
+  favoriteBlog,
 };
