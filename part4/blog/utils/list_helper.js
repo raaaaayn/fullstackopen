@@ -31,16 +31,42 @@ const mostLikes = (blogs) => {
       }
     });
   });
+  try {
+    let max = arr2.reduce((prev, current) =>
+      prev.likes > current.likes ? prev : current
+    );
 
-  let max = arr2.reduce((prev, current) =>
-    prev.likes > current.likes ? prev : current
-  );
+    return [max];
+  } catch (TypeError) {
+    return [];
+  }
+};
 
-  return [max];
+const mostBlogs = (blogs) => {
+  let arr = [...new Set(blogs.map((blog) => blog.author))];
+  let arr2 = arr.map((author) => {
+    return { author, blogs: 0 };
+  });
+  blogs.map((blog) => {
+    arr2.map((concBlog) => {
+      if (blog.author == concBlog.author) {
+        concBlog.blogs += 1;
+      }
+    });
+  });
+  try {
+    let max = arr2.reduce((prev, current) =>
+      prev.blogs > current.blogs ? prev : current
+    );
+    return max;
+  } catch (TypeError) {
+    return;
+  }
 };
 
 module.exports = {
   totalLikes,
   favoriteBlog,
   mostLikes,
+  mostBlogs,
 };
