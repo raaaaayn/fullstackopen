@@ -17,7 +17,30 @@ const favoriteBlog = (blogs) => {
   return max;
 };
 
+const mostLikes = (blogs) => {
+  let arr = [...new Set(blogs.map((blog) => blog.author))];
+
+  let arr2 = arr.map((author) => {
+    return { author, likes: 0 };
+  });
+
+  blogs.map((blog) => {
+    arr2.map((concBlog) => {
+      if (blog.author == concBlog.author) {
+        concBlog.likes += blog.likes;
+      }
+    });
+  });
+
+  let max = arr2.reduce((prev, current) =>
+    prev.likes > current.likes ? prev : current
+  );
+
+  return [max];
+};
+
 module.exports = {
   totalLikes,
   favoriteBlog,
+  mostLikes,
 };
