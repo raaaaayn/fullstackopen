@@ -1,6 +1,7 @@
 // connects to mongodb and uses middlewares for app and shit
 const http = require("http");
 const express = require("express");
+require("express-async-errors");
 const config = require("./utils/config");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
@@ -13,9 +14,8 @@ const Blog = require("./models/blog");
 
 const blogRouter = require("./controllers/blogs");
 
-const mongoUrl = config.MONGODB_URL;
 mongoose
-  .connect(mongoUrl, {
+  .connect(config.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
