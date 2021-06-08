@@ -27,8 +27,13 @@ const invalidBlog = {
   title: "me",
   author: "Ray",
   url: "blogs.me",
-  likes: 4,
+  id: "60bf881c2379ea1a0cfa21b3",
+};
+const invalidBlog2 = {
+  title: "blog4",
+  author: "Ray",
+  url: "blogs.me",
   id: "60bf881c2379ea1a0cfa21b3",
 };
 
-module.exports = { initialBlogs, validBlog, invalidBlog };
+module.exports = { initialBlogs, validBlog, invalidBlog, invalidBlog2 };

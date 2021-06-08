@@ -48,6 +48,18 @@ describe("blogs api tests", () => {
     const response = await api.get("/api/blogs");
     expect(response.body[0].id).toBeDefined();
   });
+
+  test("if likes is missing defaults to 0", async () => {
+    let blog = helper.invalidBlog2;
+    if (!blog.likes) {
+      blog = { ...blog, likes: 0 };
+    }
+    await api
+      .post("/api/blogs")
+      .send(blog)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+  });
 });
 
 afterAll(() => {
