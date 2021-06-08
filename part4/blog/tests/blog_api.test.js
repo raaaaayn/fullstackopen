@@ -65,13 +65,28 @@ describe("adding blogs", () => {
 });
 
 describe("deleting blogs", () => {
-  test("checks if a blog can be delete with valid id", async () => {
+  test("checks if a blog can be deleted with valid id", async () => {
     let result = await api.get("/api/blogs");
     const id = result.body[0].id;
-    console.log(id);
     await api.delete(`/api/blogs/${id}`).expect(204);
     result = await api.get("/api/blogs");
     expect(result.body).toHaveLength(helper.initialBlogs.length - 1);
+  });
+
+  test("should return maformed id when given improper id", async () => {
+    const id = "234234fa";
+    const result = await api.delete(`/api/blogs/${id}`).expect(400);
+    expect(result.text).toBe('{"error":"malformatted id"}');
+  });
+});
+
+describe("editing amount of likes", () => {
+  test("should edit the number of likes when given a valid id", async () => {
+    const blogsold = await api.get("/api/blogs");
+    const id = blogsold.body[0].id;
+    await api.put(`/api/blogs/${id}`).send({ likes: 10 });
+    const blogsnew = await api.get("/api/blogs");
+    expect(blogsnew.body[0].likes).not.toBe(blogsold.body[0].likes);
   });
 });
 

@@ -12,3 +12,9 @@ POST /blogs
 
 http://localhost:3003/api
 GET /
+
+http://localhost:3003/api
+PUT /blogs/60bb7bc2c5a81a2b75d3745a
+{
+        "likes":10
+}
