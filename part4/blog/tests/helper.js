@@ -24,9 +24,8 @@ const validBlog = {
 };
 
 const invalidBlog = {
-  title: "me",
   author: "Ray",
-  url: "blogs.me",
+  likes: 4,
   id: "60bf881c2379ea1a0cfa21b3",
 };
 const invalidBlog2 = {

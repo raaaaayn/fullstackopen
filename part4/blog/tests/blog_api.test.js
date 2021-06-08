@@ -36,7 +36,7 @@ describe("blogs api tests", () => {
       .expect("Content-Type", /application\/json/);
   });
 
-  test("an invalid blog cannot be added", async () => {
+  test("an invalid blog cannot be added title,url are missing", async () => {
     const invalidBlog = helper.invalidBlog;
     await api
       .post("/api/blogs")
