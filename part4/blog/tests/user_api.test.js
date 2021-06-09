@@ -16,17 +16,38 @@ describe("test the user api", () => {
   test("gets previous users", async () => {
     const result = await api.get("/api/users").expect(200);
   });
+
   test("adds a valid user", async () => {
     const result = await api.post("/api/users").send(initialUser).expect(200);
     expect(result.body.username).toBe(initialUser.username);
   });
-  test("shouldnt add an invalid user", async () => {
-    const initialuser = {
+
+  test("shouldnt add an user with short password", async () => {
+    const mockuser = {
       username: "buttnuster123",
       name: "Butt Nuster",
+      password: "12",
     };
+    result = await api.post("/api/users").send(mockuser).expect(400);
+    expect(result.body).toEqual({
+      error: "password length must be greater than 3",
+    });
+  });
 
-    await api.post("/api/users").send(initialuser).expect(500);
+  test("shouldnt add two users with same username", async () => {
+    const mockuser1 = {
+      username: "poopuinu",
+      name: "Butt Nuster",
+      password: "123",
+    };
+    const mockuser2 = {
+      username: "poopuinu",
+      name: "Butt Nuster",
+      password: "123",
+    };
+    await api.post("/api/users").send(mockuser1).expect(200);
+    let result = await api.post("/api/users").send(mockuser2).expect(400);
+    expect(result.body).toEqual({ error: "username has already been taken" });
   });
 });
 

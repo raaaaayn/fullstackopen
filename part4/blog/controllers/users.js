@@ -8,8 +8,14 @@ userRouter.get("/", async (request, response) => {
 });
 
 userRouter.post("/", async (request, response) => {
+  const password = request.body.password;
+  if (password.length < 3) {
+    response
+      .status(400)
+      .json({ error: "password length must be greater than 3" });
+  }
   const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(request.body.password, saltRounds);
+  const passwordHash = await bcrypt.hash(password, saltRounds);
 
   const user = new User({
     username: request.body.username,

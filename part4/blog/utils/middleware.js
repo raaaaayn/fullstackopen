@@ -13,12 +13,16 @@ const unknownEndpoint = (request, response) => {
 };
 
 const errorHandler = (error, request, response, next) => {
-  logger.error(error.message);
+  logger.info(error.name);
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
   } else if (error.name === "ValidationError") {
     return response.status(400).json({ error: error.message });
+  } else if (error.name === "MongoError") {
+    return response
+      .status(400)
+      .json({ error: "username has already been taken" });
   }
 
   next(error);
