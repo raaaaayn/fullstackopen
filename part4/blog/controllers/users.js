@@ -1,10 +1,16 @@
 const userRouter = require("express").Router();
 const User = require("../models/user");
+const Blog = require("../models/blog");
 const bcrypt = require("bcrypt");
 
 userRouter.get("/", async (request, response) => {
-  const users = await User.find({});
-  response.json(users);
+  const users = await User.find({}).populate("blogs", {
+    title: 1,
+    author: 1,
+    url: 1,
+    likes: 1,
+  });
+  response.json(users.map((user) => user.toJSON()));
 });
 
 userRouter.post("/", async (request, response) => {
@@ -28,7 +34,7 @@ userRouter.post("/", async (request, response) => {
 
 userRouter.delete("/:id", async (req, resp) => {
   const id = req.params.id;
-  await Blog.findByIdAndDelete(id);
+  await User.findByIdAndDelete(id);
   resp.sendStatus(204);
 });
 

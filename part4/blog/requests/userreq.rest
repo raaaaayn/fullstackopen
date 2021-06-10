@@ -3,5 +3,13 @@ POST /users
 {
       "username": "buttnuster123",
       "name": "Butt Nuster",
-      "password": "12"
+      "password": "123"
     }
+
+
+http://localhost:3003/api
+GET /users
+
+
+http://localhost:3003/api
+DELETE /users/60c1d3e2196da4e6ad9c4d92
