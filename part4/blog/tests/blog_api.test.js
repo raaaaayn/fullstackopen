@@ -2,13 +2,31 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const helper = require("./helper");
+const bcrypt = require("bcrypt");
 
 const api = supertest(app);
 
 const initialBlogs = helper.initialBlogs;
+let token = {};
 
 beforeEach(async () => {
+  await User.deleteMany({});
+  const passwordHash = await bcrypt.hash("abcd", 10);
+
+  const testuser = new User({
+    username: "testuser",
+    name: "test user",
+    passwordHash,
+  });
+
+  await testuser.save();
+
+  const result = await api
+    .post("/api/login")
+    .send({ username: "testuser", password: "abcd" });
+  token = result.body.token;
   await Blog.deleteMany({});
   await Blog.insertMany(helper.initialBlogs);
 });
@@ -37,6 +55,7 @@ describe("adding blogs", () => {
     const response = await api
       .post("/api/blogs")
       .send(validBlog)
+      .set({ Authorization: `bearer ${token}` })
       .expect(200)
       .expect("Content-Type", /application\/json/);
     expect(response.body.title).toBe("blog3");
@@ -47,6 +66,7 @@ describe("adding blogs", () => {
     await api
       .post("/api/blogs")
       .send(invalidBlog)
+      .set({ Authorization: `bearer ${token}` })
       .expect(400)
       .expect("Content-Type", /application\/json/);
   });
@@ -59,6 +79,7 @@ describe("adding blogs", () => {
     await api
       .post("/api/blogs")
       .send(blog)
+      .set({ Authorization: `bearer ${token}` })
       .expect(200)
       .expect("Content-Type", /application\/json/);
   });
@@ -68,14 +89,20 @@ describe("deleting blogs", () => {
   test("checks if a blog can be deleted with valid id", async () => {
     let result = await api.get("/api/blogs");
     const id = result.body[0].id;
-    await api.delete(`/api/blogs/${id}`).expect(204);
+    await api
+      .delete(`/api/blogs/${id}`)
+      .expect(204)
+      .set({ Authorization: `bearer ${token}` });
     result = await api.get("/api/blogs");
     expect(result.body).toHaveLength(helper.initialBlogs.length - 1);
   });
 
   test("should return maformed id when given improper id", async () => {
     const id = "234234fa";
-    const result = await api.delete(`/api/blogs/${id}`).expect(400);
+    const result = await api
+      .delete(`/api/blogs/${id}`)
+      .expect(400)
+      .set({ Authorization: `bearer ${token}` });
     expect(result.text).toBe('{"error":"malformatted id"}');
   });
 });
