@@ -2,6 +2,8 @@ http://localhost:3003/api
 GET /blogs
 
 http://localhost:3003/api
+Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvb3B1aW51IiwiaWQiOiI2MGMyNDE5YTgxMTlkZjAyZDM0OWUyMTQiLCJpYXQiOjE2MjMzNDY0NzB9.E8UfQtjXyDztyP1GJKa5tCXA23pInM5sdL2B6cfoq6
+Content-Type: application/json
 POST /blogs
 {
   "title":"blogamongus",

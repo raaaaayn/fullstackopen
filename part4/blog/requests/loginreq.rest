@@ -1,6 +1,6 @@
 http://localhost:3003/api
 POST /login
 {
-  "username":"buttnuste123",
-  "password":"123"
+  "username":"poopuinu",
+  "password":"password"
 }
