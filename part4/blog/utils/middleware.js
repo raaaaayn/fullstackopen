@@ -12,7 +12,6 @@ const tokenExtractor = (req, resp, next) => {
   const auth = req.get("authorization");
   if (auth && auth.toLowerCase().startsWith("bearer ")) {
     req.token = auth.substring(7);
-    console.log(req.token);
   } else {
     req.token = null;
   }
@@ -34,6 +33,8 @@ const errorHandler = (error, request, response, next) => {
     return response
       .status(400)
       .json({ error: "username has already been taken" });
+  } else if (error.name === "JsonWebTokenError") {
+    return response.status(401).json({ error: "invalid token" });
   }
 
   next(error);
