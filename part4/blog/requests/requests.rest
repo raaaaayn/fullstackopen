@@ -2,7 +2,7 @@ http://localhost:3003/api
 GET /blogs
 
 http://localhost:3003/api
-Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvb3B1aW51IiwiaWQiOiI2MGMyNDE5YTgxMTlkZjAyZDM0OWUyMTQiLCJpYXQiOjE2MjMzNDg3NzJ9.YNmQ-u2T49r2en--fYWYjEss4jPYzYypds-9djtjIEI
+Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvb3B1aW51IiwiaWQiOiI2MGMyNDE5YTgxMTlkZjAyZDM0OWUyMTQiLCJpYXQiOjE2MjMzNTA5NjZ9.iOrLGAkkI8iCjWCjMP5ivqsREdVhuDvVJxmMBTMeZQE
 Content-Type: application/json
 POST /blogs
 {
@@ -14,12 +14,6 @@ POST /blogs
 
 
 http://localhost:3003/api
-Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1dHRudXN0ZTEyMyIsImlkIjoiNjBjMWJjYWI3ZjJiYWNhODljMGQwMzcwIiwiaWF0IjoxNjIzMzQ5MjkwfQ.pV0uEVWCvhdV3JGEjhmC_C1Lx9L_uZPkf1Y2ECOH7CM
-DELETE /blogs/60c253d3d0cb1741cacaea45
-
-http://localhost:3003/api
-PUT /blogs/60c2419a8119df02d349e214
-{
-        "likes":10
-}
+Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1dHRudXN0ZTEyMyIsImlkIjoiNjBjMWJjYWI3ZjJiYWNhODljMGQwMzcwIiwiaWF0IjoxNjIzMzU0MDE1fQ.KngpfpbuaGIsdEGBgkvJ-TzkEmfGsZfWg-6bxrGQXy0
+DELETE /blogs/60c25bd90b409c60dce88fc2
 

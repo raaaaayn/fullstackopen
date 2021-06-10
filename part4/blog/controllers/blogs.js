@@ -3,20 +3,15 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 const logger = require("../utils/logger");
 const jwt = require("jsonwebtoken");
+const middleware = require("../utils/middleware");
 
 blogRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
   response.json(blogs);
 });
 
-blogRouter.post("/", async (request, response) => {
-  const token = request.token;
-
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!token || !decodedToken.id) {
-    return response.status(401).json({ error: "token missing or invalid" });
-  }
-  const user = await User.findById(decodedToken.id);
+blogRouter.post("/", middleware.userExtractor, async (request, response) => {
+  const user = request.user;
 
   const blogReq = request.body;
   const blog = new Blog({
@@ -26,25 +21,22 @@ blogRouter.post("/", async (request, response) => {
     likes: blogReq.likes,
     user: user._id,
   });
-
-  const result = await blog.save();
-  user.blogs = user.blogs.concat(result._id);
-  await user.save();
-  response.status(200).json(result);
+  if (user) {
+    const result = await blog.save();
+    user.blogs = user.blogs.concat(result._id);
+    await user.save();
+    response.status(200).json(result);
+  } else {
+    response
+      .status(401)
+      .json({ error: "you have to loging to be able to create blogs" });
+  }
 });
 
-blogRouter.delete("/:id", async (req, resp) => {
-  const token = req.token;
-
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!token || !decodedToken.id) {
-    return resp.status(401).json({ error: "token missing or invalid" });
-  }
-
-  const user = await User.findById(decodedToken.id);
+blogRouter.delete("/:id", middleware.userExtractor, async (req, resp) => {
+  const user = req.user;
   const blog = await Blog.findById(req.params.id);
-
-  if (!blog) {
+  if (!blog || !user) {
     resp.sendStatus(404);
   } else if (user.id.toString() === blog.user.toString()) {
     const id = req.params.id;
