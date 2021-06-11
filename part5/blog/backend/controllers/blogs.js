@@ -18,7 +18,7 @@ blogRouter.post("/", middleware.userExtractor, async (request, response) => {
     title: blogReq.title,
     author: blogReq.author,
     url: blogReq.url,
-    likes: blogReq.likes,
+    likes: 0,
     user: user._id,
   });
   if (user) {
@@ -29,7 +29,7 @@ blogRouter.post("/", middleware.userExtractor, async (request, response) => {
   } else {
     response
       .status(401)
-      .json({ error: "you have to loging to be able to create blogs" });
+      .json({ error: "you have to login to be able to create blogs" });
   }
 });
 
