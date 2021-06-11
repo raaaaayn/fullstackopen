@@ -1,0 +1,19 @@
+http://localhost:3003/api
+GET /blogs
+
+http://localhost:3003/api
+Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvb3B1aW51IiwiaWQiOiI2MGMyNDE5YTgxMTlkZjAyZDM0OWUyMTQiLCJpYXQiOjE2MjMzNTA5NjZ9.iOrLGAkkI8iCjWCjMP5ivqsREdVhuDvVJxmMBTMeZQE
+Content-Type: application/json
+POST /blogs
+{
+  "title":"blogamongus",
+  "author":"BUttNuster",
+  "url":"localhost",
+  "likes":0
+}
+
+
+http://localhost:3003/api
+Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1dHRudXN0ZTEyMyIsImlkIjoiNjBjMWJjYWI3ZjJiYWNhODljMGQwMzcwIiwiaWF0IjoxNjIzMzU0MDE1fQ.KngpfpbuaGIsdEGBgkvJ-TzkEmfGsZfWg-6bxrGQXy0
+DELETE /blogs/60c25bd90b409c60dce88fc2
+
