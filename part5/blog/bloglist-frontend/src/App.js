@@ -17,8 +17,13 @@ const App = () => {
   const [notif, setNotif] = useState(null);
 
   useEffect(() => {
-    console.log("set effect for get blogs");
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    const getandsetBlogs = async () => {
+      console.log("set effect for get blogs");
+      const result = await blogService.getAll();
+      console.log(result);
+      setBlogs(result.sort((prev, next) => next.likes - prev.likes));
+    };
+    getandsetBlogs();
   }, []);
 
   useEffect(() => {

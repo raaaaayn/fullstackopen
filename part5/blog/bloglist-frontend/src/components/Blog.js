@@ -11,9 +11,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
   const handleLike = async () => {
     const editedBlog = await blogService.postLike(blogid);
     const result = await blogService.getAll();
-    console.log(result);
-    setBlogs(result);
-    console.log("editedBlog", editedBlog);
+    setBlogs(result.sort((prev, next) => next.likes - prev.likes));
   };
 
   return (
