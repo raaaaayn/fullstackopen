@@ -22,3 +22,13 @@ h1 {
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.blog {
+  border: solid black 2px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.compact-blog {
+  padding: 0px 0 5px 0;
+}
