@@ -6,6 +6,7 @@ import CreateBlogs from "./components/createblogs.js";
 import Alert from "./components/alert";
 import Notif from "./components/notif";
 import "./index.css";
+import Togglable from "./components/toggelable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -58,21 +59,11 @@ const App = () => {
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <input type="text" value={username} name="Username" onChange={({ target }) => setUsername(target.value)} />
         </div>
         <div>
           password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <input type="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)} />
         </div>
         <button type="submit">login</button>
       </form>
@@ -91,18 +82,13 @@ const App = () => {
             <h3>{user.username} logged in</h3>
             <button onClick={handleLogout}>Logout</button>
           </div>
+          <Togglable buttonLabel="create blog">
+            <CreateBlogs setBlogs={setBlogs} blogs={blogs} notif={notif} setNotif={setNotif} alert={alert} setAlert={setAlert} />
+          </Togglable>
           <h1>blogs</h1>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
-          <CreateBlogs
-            setBlogs={setBlogs}
-            blogs={blogs}
-            notif={notif}
-            setNotif={setNotif}
-            alert={alert}
-            setAlert={setAlert}
-          />
         </div>
       )}
     </div>
