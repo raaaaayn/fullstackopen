@@ -23,9 +23,7 @@ beforeEach(async () => {
 
   await testuser.save();
 
-  const result = await api
-    .post("/api/login")
-    .send({ username: "testuser", password: "abcd" });
+  const result = await api.post("/api/login").send({ username: "testuser", password: "abcd" });
   token = result.body.token;
   await Blog.deleteMany({});
   await Blog.insertMany(helper.initialBlogs);
@@ -111,7 +109,7 @@ describe("editing amount of likes", () => {
   test("should edit the number of likes when given a valid id", async () => {
     const blogsold = await api.get("/api/blogs");
     const id = blogsold.body[0].id;
-    await api.put(`/api/blogs/${id}`).send({ likes: 10 });
+    const newBlog = await api.put(`/api/blogs/${id}`);
     const blogsnew = await api.get("/api/blogs");
     expect(blogsnew.body[0].likes).not.toBe(blogsold.body[0].likes);
   });

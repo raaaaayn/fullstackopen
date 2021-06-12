@@ -21,4 +21,14 @@ const postBlog = async (blogObj) => {
   }
 };
 
-export default { getAll, setToken, postBlog };
+const postLike = async (blogid) => {
+  try {
+    console.log(blogid);
+    const result = await axios.put(`${baseUrl}/${blogid}`);
+    return result.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export default { getAll, setToken, postBlog, postLike };

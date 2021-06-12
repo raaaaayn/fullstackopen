@@ -17,6 +17,7 @@ const App = () => {
   const [notif, setNotif] = useState(null);
 
   useEffect(() => {
+    console.log("set effect for get blogs");
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
@@ -59,11 +60,21 @@ const App = () => {
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input type="text" value={username} name="Username" onChange={({ target }) => setUsername(target.value)} />
+          <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
         </div>
         <div>
           password
-          <input type="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)} />
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
         </div>
         <button type="submit">login</button>
       </form>
@@ -83,11 +94,18 @@ const App = () => {
             <button onClick={handleLogout}>Logout</button>
           </div>
           <Togglable buttonLabel="create blog">
-            <CreateBlogs setBlogs={setBlogs} blogs={blogs} notif={notif} setNotif={setNotif} alert={alert} setAlert={setAlert} />
+            <CreateBlogs
+              setBlogs={setBlogs}
+              blogs={blogs}
+              notif={notif}
+              setNotif={setNotif}
+              alert={alert}
+              setAlert={setAlert}
+            />
           </Togglable>
           <h1>blogs</h1>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />
           ))}
         </div>
       )}
