@@ -2,16 +2,34 @@ import React, { useEffect, useState } from "react";
 import Togglable from "./toggelable";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, blogs, setBlogs }) => {
+const Blog = ({ blog, blogs, setBlogs, setAlert, setNotif }) => {
   const [blogid, setBlogid] = useState("");
   useEffect(() => {
     setBlogid(blog.id);
   }, []);
 
   const handleLike = async () => {
-    const editedBlog = await blogService.postLike(blogid);
+    await blogService.postLike(blogid);
     const result = await blogService.getAll();
     setBlogs(result.sort((prev, next) => next.likes - prev.likes));
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm("do you really want to delete the blog?")) {
+      try {
+        await blogService.deleteBlog(blogid);
+        setBlogs(blogs.filter((blog) => blog.id !== blogid));
+        setNotif(`successfully deleted ${blog.title}`);
+        setTimeout(() => {
+          setNotif(null);
+        }, 3000);
+      } catch (err) {
+        setAlert("Couldnt delete blog");
+        setTimeout(() => {
+          setAlert(null);
+        }, 3000);
+      }
+    }
   };
 
   return (
@@ -26,6 +44,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
             Likes: {blog.likes} <button onClick={handleLike}>Like</button>
           </div>
           <div>{blog.user ? blog.user.name : null}</div>
+          <button onClick={handleDelete}>remove</button>
         </div>
       </Togglable>
     </div>
