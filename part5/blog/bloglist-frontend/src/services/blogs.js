@@ -13,7 +13,6 @@ const getAll = () => {
 const postBlog = async (blogObj) => {
   try {
     const config = { headers: { Authorization: token } };
-    console.log(blogObj, config);
     const request = await axios.post(baseUrl, blogObj, config);
     return request.data;
   } catch (error) {
@@ -23,7 +22,6 @@ const postBlog = async (blogObj) => {
 
 const postLike = async (blogid) => {
   try {
-    console.log(blogid);
     const result = await axios.put(`${baseUrl}/${blogid}`);
     return result.data;
   } catch (err) {

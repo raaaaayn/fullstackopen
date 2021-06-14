@@ -18,9 +18,7 @@ const App = () => {
 
   useEffect(() => {
     const getandsetBlogs = async () => {
-      console.log("set effect for get blogs");
       const result = await blogService.getAll();
-      console.log(result);
       setBlogs(result.sort((prev, next) => next.likes - prev.likes));
     };
     getandsetBlogs();
@@ -121,6 +119,7 @@ const App = () => {
               setBlogs={setBlogs}
               setAlert={setAlert}
               setNotif={setNotif}
+              className="blog"
             />
           ))}
         </div>

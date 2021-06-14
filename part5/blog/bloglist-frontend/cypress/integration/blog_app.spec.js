@@ -89,4 +89,26 @@ describe("Blog app", function () {
       cy.contains("Couldnt delete blog");
     });
   });
+  describe("blogs", function () {
+    it("blogs sorted according to no. of likes", function () {
+      cy.login({ username: "poopuinu", password: "123" });
+      cy.createBlog({
+        title: "poopuinu",
+        author: "test",
+        url: "test",
+      });
+      cy.createBlog({
+        title: "buttnuster",
+        author: "test",
+        url: "test",
+      });
+      cy.get(".blog").each((blog) => {
+        cy.wrap(blog).contains("view").click().parent();
+        cy.wrap(blog).contains("Like").click();
+        cy.get("#likes").should("contain", "1");
+        // blogs.parent().contains("view").click();
+        // blogs.map((blog) => blog.parent().contains("view").click);
+      });
+    });
+  });
 });

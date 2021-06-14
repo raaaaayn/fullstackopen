@@ -17,9 +17,7 @@ const CreateBlogs = (props) => {
       url,
     };
     const result = await blogService.postBlog(blogObj);
-    console.log("result", result);
     if (result) {
-      console.log("result", result);
       props.setBlogs(props.blogs.concat(result));
       props.setNotif(`successfully added ${result.title}`);
       setTimeout(() => {

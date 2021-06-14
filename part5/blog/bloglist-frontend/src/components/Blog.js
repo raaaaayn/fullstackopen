@@ -40,7 +40,7 @@ const Blog = ({ blog, blogs, setBlogs, setAlert, setNotif }) => {
       <Togglable buttonLabel="view">
         <div>
           <div>{blog.url}</div>
-          <div>
+          <div id="likes">
             Likes: {blog.likes}
             <button className="likes-button" onClick={handleLike}>
               Like

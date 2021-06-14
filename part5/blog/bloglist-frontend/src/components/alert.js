@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 const Alert = ({ alert }) => {
@@ -6,10 +5,6 @@ const Alert = ({ alert }) => {
     return <div></div>;
   }
   return <div className="alert">{alert}</div>;
-};
-
-Alert.propTypes = {
-  alert: PropTypes.string.isRequired,
 };
 
 export default Alert;
