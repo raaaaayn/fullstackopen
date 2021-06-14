@@ -1,12 +1,18 @@
 describe("Blog app", function () {
   beforeEach(function () {
     cy.request("POST", "http://localhost:3003/api/testing/reset");
-    const user = {
+    const user1 = {
       name: "poopuinu",
       username: "poopuinu",
       password: "123",
     };
-    cy.request("POST", "http://localhost:3003/api/users/", user);
+    cy.request("POST", "http://localhost:3003/api/users/", user1);
+    const user2 = {
+      name: "buttnuster",
+      username: "buttnuster",
+      password: "123",
+    };
+    cy.request("POST", "http://localhost:3003/api/users/", user2);
     cy.visit("http://localhost:3000");
   });
 
@@ -60,8 +66,27 @@ describe("Blog app", function () {
       // cy.get("#url").type("test");
       // cy.get("#create-blog").click();
 
-      cy.contains("view").click();
+      cy.expandView();
       cy.get(".likes-button").click();
+    });
+  });
+  describe("deleting blogs", function () {
+    it("can delete a blog", function () {
+      cy.login({ username: "poopuinu", password: "123" });
+      cy.createBlog({ title: "tests", author: "test", url: "test" });
+      cy.expandView();
+      cy.contains("remove").click();
+      cy.contains("successfully deleted tests");
+    });
+
+    it("cannot delete a blog that was not created by the user", function () {
+      cy.login({ username: "poopuinu", password: "123" });
+      cy.createBlog({ title: "poopuinu", author: "test", url: "test" });
+      cy.login({ username: "buttnuster", password: "123" });
+      cy.createBlog({ title: "buttnuster", author: "test", url: "test" });
+      cy.contains("poopuinu").parent().contains("view").click();
+      cy.contains("remove").click();
+      cy.contains("Couldnt delete blog");
     });
   });
 });

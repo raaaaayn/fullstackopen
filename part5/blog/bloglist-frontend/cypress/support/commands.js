@@ -47,3 +47,7 @@ Cypress.Commands.add("login", ({ username, password }) => {
     cy.visit("http://localhost:3000");
   });
 });
+
+Cypress.Commands.add("expandView", () => {
+  cy.contains("view").click();
+});
