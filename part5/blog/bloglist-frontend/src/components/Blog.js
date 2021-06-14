@@ -41,7 +41,10 @@ const Blog = ({ blog, blogs, setBlogs, setAlert, setNotif }) => {
         <div>
           <div>{blog.url}</div>
           <div>
-            Likes: {blog.likes} <button onClick={handleLike}>Like</button>
+            Likes: {blog.likes}
+            <button className="likes-button" onClick={handleLike}>
+              Like
+            </button>
           </div>
           <div>{blog.user ? blog.user.name : null}</div>
           <button onClick={handleDelete}>remove</button>
