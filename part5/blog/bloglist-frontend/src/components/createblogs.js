@@ -40,6 +40,7 @@ const CreateBlogs = (props) => {
         <input
           type="text"
           value={title}
+          id="title"
           name="Username"
           onChange={({ target }) => setTitle(target.value)}
         />
@@ -48,6 +49,7 @@ const CreateBlogs = (props) => {
           <input
             type="text"
             value={author}
+            id="author"
             name="Username"
             onChange={({ target }) => setAuthor(target.value)}
           />
@@ -56,12 +58,13 @@ const CreateBlogs = (props) => {
           url:
           <input
             type="text"
+            id="url"
             value={url}
             name="Username"
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button>create</button>
+        <button id="create-blog">create</button>
       </form>
     </div>
   );
