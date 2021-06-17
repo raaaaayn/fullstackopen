@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { createAnecdote } from "../reducers/anecdoteReducer";
+import { setNotifa } from "../reducers/notificationReducer";
 
 const AnecdoteForm = (props) => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const AnecdoteForm = (props) => {
     event.target.anecdote.value = "";
     const anecdoteToBeUploaded = { content, votes: 0 };
     dispatch(createAnecdote(anecdoteToBeUploaded));
+    dispatch(setNotifa(`created ${anecdoteToBeUploaded.content}`, 5));
   };
   return (
     <div>

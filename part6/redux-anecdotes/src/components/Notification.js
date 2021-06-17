@@ -9,11 +9,7 @@ const Notification = () => {
     borderWidth: 1,
   };
   return (
-    <div>
-      {notification ? (
-        <div style={style}>You voted '{notification}'</div>
-      ) : null}
-    </div>
+    <div>{notification ? <div style={style}>{notification}</div> : null}</div>
   );
 };
 

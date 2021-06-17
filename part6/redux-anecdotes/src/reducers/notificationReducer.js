@@ -22,4 +22,13 @@ export const unsetNotif = () => {
   };
 };
 
+export const setNotifa = (content, time) => {
+  return async (dispatch) => {
+    dispatch(setNotif(content));
+    setTimeout(() => {
+      dispatch(unsetNotif());
+    }, time * 1000);
+  };
+};
+
 export default notificationReducer;
