@@ -42,10 +42,17 @@ export const initialiseAnecdotes = () => {
 };
 
 export const createAnecdote = (anec) => {
-  return {
-    type: "CREATE_ANEC",
-    data: { ...anec, votes: 0 },
+  return async (dispatch) => {
+    const anecdote = await anecService.createAnec(anec);
+    dispatch({
+      type: "CREATE_ANEC",
+      data: { ...anecdote, votes: 0 },
+    });
   };
+  // {
+  //   type: "CREATE_ANEC",
+  //   data: { ...anec, votes: 0 },
+  // };
 };
 
 export default anecdoteReducer;

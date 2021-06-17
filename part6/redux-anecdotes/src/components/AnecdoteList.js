@@ -17,7 +17,7 @@ const AnecdoteList = (props) => {
     //   console.log(a);
     //   dispatch(initialiseAnecdotes(a));
     // });
-  }, []);
+  }, [dispatch]);
 
   const vote = (anecdote) => {
     console.log("vote");
