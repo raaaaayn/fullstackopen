@@ -11,11 +11,13 @@ const AnecdoteList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    anecService.getAll().then((a) => {
-      console.log(a);
-      dispatch(initialiseAnecdotes(a));
-    });
-  }, [dispatch]);
+    console.log("useeffect");
+    dispatch(initialiseAnecdotes());
+    // anecService.getAll().then((a) => {
+    //   console.log(a);
+    //   dispatch(initialiseAnecdotes(a));
+    // });
+  }, []);
 
   const vote = (anecdote) => {
     console.log("vote");
