@@ -8,7 +8,13 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1,
   };
-  return <div style={style}>{notification}</div>;
+  return (
+    <div>
+      {notification ? (
+        <div style={style}>You voted '{notification}'</div>
+      ) : null}
+    </div>
+  );
 };
 
 export default Notification;
