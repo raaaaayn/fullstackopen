@@ -3,11 +3,10 @@ import anecService from "../services/anecdotes";
 const anecdoteReducer = (state = [], action) => {
   console.log("state now: ", state);
   console.log("action", action);
-  console.log("action.data", action.data);
   switch (action.type) {
     case "VOTE":
       const anecdoteToChange = state.find(
-        (anecdote) => anecdote.id === action.data.id
+        (anecdote) => anecdote.id === action.data.anec.id
       );
       const changedAnecdote = {
         ...anecdoteToChange,
@@ -27,10 +26,13 @@ const anecdoteReducer = (state = [], action) => {
   }
 };
 
-export const voteFor = (id) => {
-  return {
-    type: "VOTE",
-    data: { id },
+export const voteFor = (anec) => {
+  return async (dispatch) => {
+    await anecService.vote(anec);
+    dispatch({
+      type: "VOTE",
+      data: { anec },
+    });
   };
 };
 
@@ -49,10 +51,6 @@ export const createAnecdote = (anec) => {
       data: { ...anecdote, votes: 0 },
     });
   };
-  // {
-  //   type: "CREATE_ANEC",
-  //   data: { ...anec, votes: 0 },
-  // };
 };
 
 export default anecdoteReducer;

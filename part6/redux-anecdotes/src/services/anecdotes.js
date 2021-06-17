@@ -11,4 +11,11 @@ const createAnec = async (anec) => {
   return req.data;
 };
 
-export default { getAll, createAnec };
+const vote = async (anec) => {
+  await axios.put(`${baseurl}/${anec.id}`, {
+    ...anec,
+    votes: anec.votes + 1,
+  });
+};
+
+export default { getAll, createAnec, vote };
