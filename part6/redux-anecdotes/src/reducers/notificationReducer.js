@@ -1,3 +1,4 @@
+let notifId;
 const notificationReducer = (state = null, action) => {
   switch (action.type) {
     case "SET_NOTIF":
@@ -10,6 +11,7 @@ const notificationReducer = (state = null, action) => {
 };
 
 export const setNotif = (content) => {
+  clearTimeout(notifId);
   return {
     type: "SET_NOTIF",
     notif: content,
@@ -25,7 +27,7 @@ export const unsetNotif = () => {
 export const setNotifa = (content, time) => {
   return async (dispatch) => {
     dispatch(setNotif(content));
-    setTimeout(() => {
+    notifId = setTimeout(() => {
       dispatch(unsetNotif());
     }, time * 1000);
   };
