@@ -1,5 +1,17 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, useRouteMatch, Redirect } from "react-router-dom";
+
+const Anecdote = ({ anecdote }) => {
+  return (
+    <div>
+      <h1>{anecdote.content}</h1>
+      <p>has {anecdote.votes} votes</p>
+      <p>
+        for more info visit <a href={anecdote.info}>{anecdote.info}</a>
+      </p>
+    </div>
+  );
+};
 
 const Menu = () => {
   const padding = {
@@ -55,14 +67,14 @@ const About = () => (
 
 const Footer = () => (
   <div>
-    Anecdote app for{" "}
+    Anecdote app for
     <a href="https://courses.helsinki.fi/fi/tkt21009">
       Full Stack -websovelluskehitys
     </a>
-    . See{" "}
+    . See
     <a href="https://github.com/fullstack-hy/routed-anecdotes/blob/master/src/App.js">
       https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js
-    </a>{" "}
+    </a>
     for the source code.
   </div>
 );
@@ -79,6 +91,8 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    props.setNotification(`created ${content}`);
+    setTimeout(() => props.setNotification(""), 10000);
   };
 
   return (
@@ -113,6 +127,10 @@ const CreateNew = (props) => {
       </form>
     </div>
   );
+};
+
+const Notification = (props) => {
+  return <div>{props.notification ? props.notification : ""}</div>;
 };
 
 const App = () => {
@@ -153,23 +171,31 @@ const App = () => {
     setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
   };
 
+  const match = useRouteMatch("/anecdotes/:id");
+  const anecdote = match ? anecdoteById(match.params.id) : null;
   return (
     <div>
-      <Router>
-        <h1>Software anecdotes</h1>
-        <Menu />
-        <Switch>
-          <Route path="/create">
-            <CreateNew addNew={addNew} />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/">
-            <AnecdoteList anecdotes={anecdotes} />
-          </Route>
-        </Switch>
-      </Router>
+      <Notification notification={notification} />
+      <h1>Software anecdotes</h1>
+      <Menu />
+      <Switch>
+        <Route path="/create">
+          {notification ? (
+            <Redirect to="/" />
+          ) : (
+            <CreateNew addNew={addNew} setNotification={setNotification} />
+          )}
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={anecdote} />
+        </Route>
+        <Route path="/">
+          <AnecdoteList anecdotes={anecdotes} />
+        </Route>
+      </Switch>
       <Footer />
     </div>
   );
