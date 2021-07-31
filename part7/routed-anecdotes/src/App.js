@@ -85,12 +85,10 @@ const CreateNew = (props) => {
   // const [author, setAuthor] = useState("");
   // const [info, setInfo] = useState("");
 
-  const content = useField("content");
-  const author = useField("author");
-  const info = useField("info");
+  const { setValue: contentSetValue, ...content } = useField("content");
+  const { setValue: authorSetValue, ...author } = useField("author");
+  const { setValue: infoSetValue, ...info } = useField("info");
 
-  console.log(content);
-  console.log({ ...content });
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
@@ -121,6 +119,15 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+      <button
+        onClick={() => {
+          contentSetValue("");
+          authorSetValue("");
+          infoSetValue("");
+        }}
+      >
+        reset
+      </button>
     </div>
   );
 };

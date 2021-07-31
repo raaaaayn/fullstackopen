@@ -11,33 +11,6 @@ export const useField = (name) => {
     name,
     value,
     onChange,
+    setValue,
   };
 };
-
-// export const useFieldAuthor = (name) => {
-//   const [value, setValue] = useState("");
-
-//   const onChange = (e) => {
-//     setValue(e.target.value);
-//   };
-
-//   return {
-//     name,
-//     value,
-//     onChange,
-//   };
-// }
-
-// export const useFieldInfo = (name) => {
-//   const [value, setValue] = useState("");
-
-//   const onChange = (e) => {
-//     setValue(e.target.value);
-//   };
-
-//   return {
-//     name,
-//     value,
-//     onChange,
-//   };
-// }
